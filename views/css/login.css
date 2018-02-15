@@ -1,0 +1,41 @@
+body{
+  height:100%;
+  width: 100%;
+}
+#login{
+  margin-top: 50px;
+}
+
+form{
+  margin-left: 35%;
+}
+
+h2{
+  font-size:50%;
+  text-align:center;
+}
+
+label{
+    padding:3px;
+    font-size: 120%;
+    text-align: left;
+}
+
+input[type=text],input[type=password]{
+border-radius:5px;
+ width:40%;
+ height:40px;
+ padding:10px;
+display:inline-block;
+
+}
+
+/* button{
+  width:15%;
+  background-color:#4CAF50;
+  border-radius:15px;
+  cursor:pointer;
+  padding:5px;
+  border:none;
+  margin-left:0%;
+} */
