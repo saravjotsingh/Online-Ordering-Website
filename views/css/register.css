@@ -5,3 +5,7 @@ input[type=text],input[type=password],input[type=email]{
 .form-group{
   margin-left: 10%;
 }
+
+.alert{
+  width:30%;
+}

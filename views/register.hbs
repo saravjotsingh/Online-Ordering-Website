@@ -10,8 +10,11 @@
 <body>
     <h1 class="text-center"><b><i>Register Here</i></b></h1>
     <hr noshade>
+
     <div class="form-group">
-    <form method="post" action="/registered" >
+
+    <form method="post" action="/register" >
+        <div class="alert alert-danger">{{data}}</div>
         <label>Name</label><br>
         <input type="text" class="form-control" name="name" placeholder="Enter your name" autofocus required><br>
         <label>Roll No.</label><br>
