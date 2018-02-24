@@ -1,0 +1,34 @@
+body{
+  height:100%;
+  width: 100%;
+}
+
+.form-group{
+  margin-left: 10%;
+}
+
+
+h2{
+  font-size:50%;
+  text-align:center;
+}
+
+label{
+    padding:3px;
+    font-size: 120%;
+    text-align: left;
+}
+
+#variety{
+  width:40%;
+}
+
+
+input[type=text],input[type=password]{
+border-radius:5px;
+ width:40%;
+ height:40px;
+ padding:10px;
+display:inline-block;
+
+}

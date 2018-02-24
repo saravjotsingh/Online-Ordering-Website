@@ -8,7 +8,7 @@ var flash = require('connect-flash');
 var {User} = require("./models/users.js");
 var {Dish} = require("./models/dish.js")
 
-//mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
 
 
@@ -47,14 +47,19 @@ app.get('/',(req,res)=>{
 
 app.post('/placeOrder',(req,res)=>{
   console.log(req.body);
-  User.findOne({
-    rollNo:req.body.lUsername,
-    password:req.body.lPassword
-  }).then((docs)=>{
-    res.send("Welcome " + docs.name);
-  },(e)=>{
-    res.render('login');
-  });
+  if(req.body.lUsername=="admin" && req.body.lPassword=="admin"){
+    res.render('addDish');
+  }else{
+    User.findOne({
+      rollNo:req.body.lUsername,
+      password:req.body.lPassword
+    }).then((docs)=>{
+      res.send("Welcome " + docs.name);
+    },(e)=>{
+      res.render('login');
+    });
+  }
+
 
 })
 
@@ -82,6 +87,10 @@ app.post("/register",(req,res)=>{
   })
 });
 
+
+app.post('/recepieAdded',(req,res)=>{
+  console.log(req.body);
+})
 
 app.listen(3000,function(){
   console.log("Server is runnning on 3000");

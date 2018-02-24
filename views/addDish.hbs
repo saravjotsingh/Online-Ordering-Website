@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Add Recepie</title>
+    <link rel="stylesheet" href="css/addDish.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1 class="text-center"><b><i>Add recepie</i></b></h1>
+    <hr noshade>
+
+    <div class="form-group">
+
+    <form method="post" action="/recepieAdded">
+      <div>
+        {{#if data}}
+          <div class="alert alert-danger">{{data}}</div>
+        {{/if}}
+      </div>
+        <label>Dish Name</label><br>
+        <input type="text" class="form-control" name="name" placeholder="Ente dish name" autofocus required><br>
+        <label>Price</label><br>
+        <input type="text" class="form-control "name="price" placeholder="Enter the price" required><br>
+        <label>Select Category</label>
+        <select class="form-control" id="variety" name="option">
+           <option value="none">None</option>
+           <option value="Starters">Starters</option>
+           <option value="Lunch">Lunch</option>
+           <option value="Dinner">Dinner</option>
+        </select><br><br>
+        <button id ="register" class="btn btn-default">Submit Recepie</button>
+    </form>
+        </div>
+          <script src="js/addDish.js"></script>
+</body>
+</html>
