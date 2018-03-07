@@ -51,18 +51,25 @@ app.post('/placeOrder',(req,res)=>{
     User.findOne({
       rollNo:req.body.lUsername,
       password:req.body.lPassword
-    }).then((docs)=>{
-      //res.send("Welcome " + docs.name);
-      //console.log(docs);
-      Dish.find({}).then((  docs)=>{
-        console.log(docs);
-      },(e)=>{
-        console.log(e);
-      });
-      res.render('mainPanel',)
-    },(e)=>{
-      res.render('login');
+    },function(err,docs){
+      if(err){
+        res.render("login")
+      }else{
+        Dish.find({},function(err,docs){
+          res.render("mainPanel",{data:docs});
+        });
+      }
     });
+    // }),((docs)=>{
+    //   Dish.find({}).then((docs)=>{
+    //     res.render("mainPanel");
+    //   },(e)=>{
+    //     console.log(e);
+    //   });
+    //   res.render('mainPanel',)
+    // },(e)=>{
+    //   res.render('login');
+    // });
   }
 
 
