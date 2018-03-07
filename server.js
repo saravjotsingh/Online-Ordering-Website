@@ -20,15 +20,13 @@ mongoose.connection.once('connected',()=>{
 
 var app = express();
 
-//app.use(express.cookieParser());
-//app.use(flash());
-//app.use(express.static(__dirname + 'views'));
-app.use(express.static(__dirname + '/views'));
+//middlewares
 
+app.use(express.static(__dirname + '/views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
+//set handlebars for frontend
 app.set('view engine','hbs');
 
 app.get('/register',(req,res)=>{
@@ -46,7 +44,7 @@ app.get('/',(req,res)=>{
 });
 
 app.post('/placeOrder',(req,res)=>{
-  console.log(req.body);
+  //console.log(req.body);
   if(req.body.lUsername=="admin" && req.body.lPassword=="admin"){
     res.render('addDish');
   }else{
@@ -54,7 +52,14 @@ app.post('/placeOrder',(req,res)=>{
       rollNo:req.body.lUsername,
       password:req.body.lPassword
     }).then((docs)=>{
-      res.send("Welcome " + docs.name);
+      //res.send("Welcome " + docs.name);
+      //console.log(docs);
+      Dish.find({}).then((  docs)=>{
+        console.log(docs);
+      },(e)=>{
+        console.log(e);
+      });
+      res.render('mainPanel',)
     },(e)=>{
       res.render('login');
     });
@@ -80,6 +85,7 @@ app.post("/register",(req,res)=>{
 
   user.save(function(err){
     if(err){
+
       res.render("register",{data:"Their is error in your form.Please Fill data Correctly"});
     }else{
       res.redirect('/');
@@ -90,6 +96,22 @@ app.post("/register",(req,res)=>{
 
 app.post('/recepieAdded',(req,res)=>{
   console.log(req.body);
+
+  var dish = new Dish({
+  dishName:req.body.name,
+  price:req.body.price,
+  course:req.body.category
+});
+
+dish.save(function(err){
+  if(err){
+    console.log(err);
+    res.render("addDish",{data:"Dish not added Please Add again"});
+  }else{
+    res.redirect("/");
+  }
+})
+
 })
 
 app.listen(3000,function(){
