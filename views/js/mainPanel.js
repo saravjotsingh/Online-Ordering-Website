@@ -1,4 +1,8 @@
 $(document).ready(function(){
+
+  var dish = [];
+  var  price = [];
+
   $("#lunch").click(function(){
     $("#Lunch").show();
     $("#Starters").hide();
@@ -37,6 +41,13 @@ $(document).ready(function(){
   $("button").click(function(){
     var a = $(this).val();
     var c = $(this).attr("data-value");
-    
-  })
+
+    dish.push(a);
+    price.push(c);
+
+    //console.log(dish);
+    //console.log(price);
+  });
+
+  //localStorage.setItem("dish",JSON.stringify(dish));
 });
