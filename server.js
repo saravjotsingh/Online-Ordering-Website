@@ -34,10 +34,6 @@ app.get('/register',(req,res)=>{
   //res.send("hello");
 })
 
-//we have to use this for authentication in login...next()
-// app.use("/",(req,res,next)=>{
-//   next();
-// })
 
 app.get('/',(req,res)=>{
   res.render('login');
@@ -53,7 +49,7 @@ app.post('/placeOrder',(req,res)=>{
       password:req.body.lPassword
     },function(err,docs){
       if(err){
-        res.render("login")
+        res.redirect("/");
       }else{
         Dish.find({},function(err,docs){
           res.render("mainPanel",{data:docs});
