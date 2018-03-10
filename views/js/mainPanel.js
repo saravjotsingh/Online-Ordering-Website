@@ -37,17 +37,28 @@ $(document).ready(function(){
     $("#Breakfast").show();
     $("#Lunch").show()
   });
-
-  $("button").click(function(){
+    var n =0;
+  $(".addToCart").click(function(){
+    n++;
     var a = $(this).val();
     var c = $(this).attr("data-value");
 
     dish.push(a);
     price.push(c);
 
+    $('#checkout').html("Checkout " + n);
+
     //console.log(dish);
     //console.log(price);
   });
 
-  //localStorage.setItem("dish",JSON.stringify(dish));
+  $("#checkout").click(function(){
+
+    sessionStorage.setItem("dish",JSON.stringify(dish));
+    sessionStorage.setItem("price",JSON.stringify(price));
+    window.location.href="/cart";
+  });
+
+
+
 });

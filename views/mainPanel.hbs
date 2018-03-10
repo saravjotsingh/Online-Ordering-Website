@@ -11,7 +11,7 @@
   <button class="btn btn-default" id="breakfast" type="button" name="button">Breakfast</button>
   <button class="btn btn-default" id="dinner" type="button" name="button">Dinner</button>
   <button class="btn btn-default"  id="all" type="button" name="button">All</button>
-  <button  class="btn btn-default" type="button" name="button">Checkout</button>
+  <button  class="btn btn-default" id="checkout" type="button" name="button">Checkout</button>
     <div class="row text-center bold">
       <div class="col-sm-3">
         <p>Name</p>
@@ -40,7 +40,7 @@
         <button type="button" class="btn btn-success" name="button">-</button>  0  <button class="btn btn-success" type="button" name="button">+</button>
       </div>
       <div class="col-sm-3">
-        <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-success" name="button">Add to Cart</button><br>
+        <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-success addToCart" name="button">Add to Cart</button><br>
       </div>
     </div>
     {{/each}}

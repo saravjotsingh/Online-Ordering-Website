@@ -117,6 +117,10 @@ dish.save(function(err){
 
 })
 
+app.get("/cart",(req,res)=>{
+  res.render("cart");
+})
+
 app.listen(3000,function(){
   console.log("Server is runnning on 3000");
 });
