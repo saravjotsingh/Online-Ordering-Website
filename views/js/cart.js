@@ -4,7 +4,7 @@ $(document).ready(function(){
   var price = JSON.parse(sessionStorage.getItem("price"));
   let final =`
   <div class='container'>
-     <div class="row" id="heading">
+     <div class="row" id="heading" style="font-weight:bold; padding:10px">
        <div class="col-sm-3">DishName</div>
        <div class="col-sm-3">Price</div>
        <div class="col-sm-3">Quantity</div>
@@ -46,14 +46,23 @@ $(document).ready(function(){
    $('.put').html(final);
 
    var totalAmount = 0;
-   $("select").change(function(){
 
-    for(var i=0;i<dish.length;i++){
+   $("select").change(function(){
+     totalAmount = 0;
+     for(var i=0;i<dish.length;i++){
       totalAmount += $("#" + i).val() * price[i];
        $("#total" + i).text($("#" + i).val() * price[i]);
     }
-    console.log(totalAmount);
-   })
+    $("#Total").text(totalAmount);
+
+  });
+
+  for(var i=0;i<dish.length;i++){
+      totalAmount += $("#" + i).val() * price[i];
+    }
+     $("#Total").text(totalAmount);
+
+
 
   //Retrieve the template data from the HTML .
 });

@@ -4,38 +4,38 @@ $(document).ready(function(){
   var  price = [];
 
   $("#lunch").click(function(){
-    $("#Lunch").show();
-    $("#Starters").hide();
-    $("#Dinner").hide();
-    $("#Breakfast").hide();
+    $(".Lunch").show();
+    $(".Starters").hide();
+    $(".Dinner").hide();
+    $(".Breakfast").hide();
   });
 
   $("#starters").click(function(){
-    $("#Starters").show();
-    $("#Lunch").hide();
-    $("#Dinner").hide();
-    $("#Breakfast").hide();
+    $(".Starters").show();
+    $(".Lunch").hide();
+    $(".Dinner").hide();
+    $(".Breakfast").hide();
   });
 
   $("#dinner").click(function(){
-    $("#dinner").show();
-    $("#Starters").hide();
-    $("#Lunch").hide();
-    $("#Breakfast").hide();
+    $(".dinner").show();
+    $(".Starters").hide();
+    $(".Lunch").hide();
+    $(".Breakfast").hide();
   });
 
   $("#breakfast").click(function(){
-    $("#breakfast").show();
-    $("#Starters").hide();
-    $("#Dinner").hide();
-    $("#Lunch").hide();
+    $(".breakfast").show();
+    $(".Starters").hide();
+    $(".Dinner").hide();
+    $(".Lunch").hide();
   });
 
   $("#all").click(function(){
-    $("#Starters")  .show();
-    $("#Dinner").show();
-    $("#Breakfast").show();
-    $("#Lunch").show()
+    $(".Starters")  .show();
+    $(".Dinner").show();
+    $(".Breakfast").show();
+    $(".Lunch").show()
   });
     var n =0;
   $(".addToCart").click(function(){

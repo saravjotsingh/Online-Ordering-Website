@@ -6,40 +6,37 @@
 </body>
 <div class="container">
   <h1 class="text-center">Cafeteria</h1>
-  <button class="btn btn-default" id="starters" type="button" name="button">Starters</button>
-  <button class="btn btn-default" id="lunch" type="button" name="button">Lunch</button>
-  <button class="btn btn-default" id="breakfast" type="button" name="button">Breakfast</button>
-  <button class="btn btn-default" id="dinner" type="button" name="button">Dinner</button>
-  <button class="btn btn-default"  id="all" type="button" name="button">All</button>
-  <button  class="btn btn-default" id="checkout" type="button" name="button">Checkout</button>
-    <div class="row text-center bold">
-      <div class="col-sm-3">
+  <button class="btn btn-link" id="starters" type="button" name="button">Starters</button>
+  <button class="btn btn-link" id="lunch" type="button" name="button">Lunch</button>
+  <button class="btn btn-link" id="breakfast" type="button" name="button">Breakfast</button>
+  <button class="btn btn-link" id="dinner" type="button" name="button">Dinner</button>
+  <button class="btn btn-link"  id="all" type="button" name="button">All</button>
+  <button  class="btn btn-default" style="text-align:right" id="checkout" type="button" name="button">Checkout</button>
+    <div class="row text-center" style="font-weight:bold">
+      <div class="col-sm-4">
         <p>Name</p>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <p>Price</p>
       </div>
-      <div class="col-sm-3">
-        <p>Quantity</p>
-      </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
 
       </div>
     </div>
 
     {{#each data}}
-    <div class="row text-center" id={{course}}>
-      <div class="col-sm-3">
+    <div class="row text-center {{course}}">
+      <div class="col-sm-4">
         <p>{{dishName}}</p>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <p>₹ {{price}}</p>
       </div>
-      <div class="col-sm-3">
+      <!-- <div class="col-sm-3">
 
         <button type="button" class="btn btn-success" name="button">-</button>  0  <button class="btn btn-success" type="button" name="button">+</button>
-      </div>
-      <div class="col-sm-3">
+      </div> -->
+      <div class="col-sm-4">
         <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-success addToCart" name="button">Add to Cart</button><br>
       </div>
     </div>
