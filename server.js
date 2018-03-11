@@ -36,14 +36,26 @@ app.get('/register',(req,res)=>{
 
 
 app.get('/',(req,res)=>{
-  res.render('login');
+  res.render('frontPage');
 });
+
+app.get("/studentLogin",(req,res)=>{
+  res.render("Login");
+});
+
+
+app.get("/adminLogin",(req,res)=>{
+  res.render("adminLogin")
+})
+
+app.post('/adminPage',(req,res)=>{
+  if(req.body.lUsername=="admin" && req.body.lPassword=="admin"){
+  res.render("addDish");
+}
+})
 
 app.post('/placeOrder',(req,res)=>{
   //console.log(req.body);
-  if(req.body.lUsername=="admin" && req.body.lPassword=="admin"){
-    res.render('addDish');
-  }else{
     User.findOne({
       rollNo:req.body.lUsername,
       password:req.body.lPassword
@@ -56,25 +68,12 @@ app.post('/placeOrder',(req,res)=>{
         });
       }
     });
-    // }),((docs)=>{
-    //   Dish.find({}).then((docs)=>{
-    //     res.render("mainPanel");
-    //   },(e)=>{
-    //     console.log(e);
-    //   });
-    //   res.render('mainPanel',)
-    // },(e)=>{
-    //   res.render('login');
-    // });
-  }
+
+
 
 
 })
 
-// app.post('/loggedin',(req,res)=>{
-//   console.log(req.body);
-//   res.redirect('/');
-// });
 
 app.post("/register",(req,res)=>{
   console.log(req.body);
@@ -118,6 +117,7 @@ dish.save(function(err){
 })
 
 app.get("/cart",(req,res)=>{
+
   res.render("cart");
 })
 

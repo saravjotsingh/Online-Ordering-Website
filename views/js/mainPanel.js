@@ -37,6 +37,7 @@ $(document).ready(function(){
     $(".Breakfast").show();
     $(".Lunch").show()
   });
+  
     var n =0;
   $(".addToCart").click(function(){
     n++;
