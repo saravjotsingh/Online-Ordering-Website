@@ -2,7 +2,12 @@ var express = require("express");
 var hbs = require("hbs");
 var bodyParser = require("body-parser");
 var mongoose = require('mongoose');
-var flash = require('connect-flash');
+//var flash = require('connect-flash');
+var passport = require("passport");
+var expressSession = require("express-session");
+var LocalStrategy   = require('passport-local').Strategy;
+
+
 
 //Models Schema
 var {User} = require("./models/users.js");
@@ -13,6 +18,10 @@ mongoose.Promise = global.Promise;
 
 
 var db = mongoose.connect('mongodb://localhost:27017/Users');
+
+
+
+
 
 mongoose.connection.once('connected',()=>{
   console.log("Connected to user database");
@@ -26,13 +35,16 @@ app.use(express.static(__dirname + '/views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//passport middlewares
+app.use(expressSession({secret:"mySecret"}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
 //set handlebars for frontend
 app.set('view engine','hbs');
 
-app.get('/register',(req,res)=>{
-  res.render('register.hbs',);
-  //res.send("hello");
-})
 
 
 app.get('/',(req,res)=>{
@@ -44,6 +56,13 @@ app.get("/studentLogin",(req,res)=>{
 });
 
 
+app.get('/register',(req,res)=>{
+  res.render('register.hbs',);
+  //res.send("hello");
+})
+
+
+
 app.get("/adminLogin",(req,res)=>{
   res.render("adminLogin")
 })
@@ -52,27 +71,81 @@ app.post('/adminPage',(req,res)=>{
   if(req.body.lUsername=="admin" && req.body.lPassword=="admin"){
   res.render("addDish");
 }
-})
-
-app.post('/placeOrder',(req,res)=>{
-  //console.log(req.body);
-    User.findOne({
-      rollNo:req.body.lUsername,
-      password:req.body.lPassword
-    },function(err,docs){
-      if(err){
-        res.redirect("/");
-      }else{
-        Dish.find({},function(err,docs){
-          res.render("mainPanel",{data:docs});
-        });
-      }
-    });
+});
 
 
+// app.post('/placeOrder',(req,res)=>{
+//   //console.log(req.body);
+//     User.findOne({
+//       rollNo:req.body.lUsername,
+//       password:req.body.lPassword
+//     },function(err,docs){
+//       if(err){
+//         res.redirect("/");
+//       }else{
+//         Dish.find({},function(err,docs){
+//           res.render("mainPanel",{data:docs});
+//         });
+//       }
+//     });
+///////////////////////////////////////////////////
+
+//Passprt MiddleWAres for routes;
+
+///////////////////////////////////////////////////
+passport.use("login",new LocalStrategy({
+  usernameField:'lUsername',
+  passwordField:'lPassword',
+  passReqToCallback:true
+},function(req,username,password,done){
+  //console.log(username,password);
+  User.findOne({'rollNo':username,'password':password},function(err,user){
+    if(err){
+      return done(err);
+    }
+    if(!user){
+      console.log("User not found");
+    }
+
+    return done(null,user);
+  })
+}
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/login',passport.authenticate('login',{
+  successRedirect:"/placeOrder",
+  failureRedirect:"/studentLogin",
+  failureflash:true
+
+}));
+
+app.get('/placeOrder',isAuthenticated,(req,res)=>{
+    Dish.find({},function(err,docs){
+            res.render("mainPanel",{data:docs});
+           });
+});
+
+ function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/studentLogin');
+}
 
 
-})
+
+
+
 
 
 app.post("/register",(req,res)=>{
@@ -116,7 +189,7 @@ dish.save(function(err){
 
 })
 
-app.get("/cart",(req,res)=>{
+app.get("/cart",isAuthenticated,(req,res)=>{
 
   res.render("cart");
 })
