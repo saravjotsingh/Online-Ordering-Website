@@ -8,15 +8,16 @@
 
 <body>
 
-  <div>
-    {{#if data}}
-      <div class="alert alert-danger">{{data}}</div>
-    {{/if}}
-  </div>
 
     <div class="container" id="login">
       <h2><b>Cafeteria Login</b></h2>
       <hr>
+      <div>
+        {{#if messages}}
+          <div class="alert alert-danger">{{messages}}</div>
+        {{/if}}
+      </div>
+
         <div class="form-group">
             <form method="post" action="/login">
                 <Label>Roll No.</Label><br>

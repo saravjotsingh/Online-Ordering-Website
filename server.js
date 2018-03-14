@@ -2,7 +2,7 @@ var express = require("express");
 var hbs = require("hbs");
 var bodyParser = require("body-parser");
 var mongoose = require('mongoose');
-//var flash = require('connect-flash');
+var flash = require('connect-flash');
 var passport = require("passport");
 var expressSession = require("express-session");
 var LocalStrategy   = require('passport-local').Strategy;
@@ -35,11 +35,12 @@ app.use(express.static(__dirname + '/views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
 //passport middlewares
 app.use(expressSession({secret:"mySecret"}));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 
 
 //set handlebars for frontend
@@ -52,13 +53,12 @@ app.get('/',(req,res)=>{
 });
 
 app.get("/studentLogin",(req,res)=>{
-  res.render("Login");
+  res.render("Login",{messages:req.flash("loginmessage")});
 });
 
 
 app.get('/register',(req,res)=>{
-  res.render('register.hbs',);
-  //res.send("hello");
+  res.render('register.hbs',{messages:req.flash("registerMessage")});
 })
 
 
@@ -105,6 +105,7 @@ passport.use("login",new LocalStrategy({
     }
     if(!user){
       console.log("User not found");
+      return done(null,false,req.flash('loginmessage',"Oops! Wrong Password and Roll No."));
     }
 
     return done(null,user);
@@ -130,11 +131,18 @@ app.post('/login',passport.authenticate('login',{
 
 }));
 
+
 app.get('/placeOrder',isAuthenticated,(req,res)=>{
     Dish.find({},function(err,docs){
-            res.render("mainPanel",{data:docs});
+            res.render("mainPanel",{data:docs,user:req.user});
            });
 });
+
+app.get("/logout",(req,res)=>{
+  req.logout();
+  res.redirect('/studentLogin');
+})
+
 
  function isAuthenticated(req, res, next) {
   if (req.isAuthenticated())
@@ -142,31 +150,70 @@ app.get('/placeOrder',isAuthenticated,(req,res)=>{
   res.redirect('/studentLogin');
 }
 
+/////
+
+//passport authentication for registration
+
+/////
 
 
+passport.use('register',new LocalStrategy({
+  usernameField:'rollno',
+  passwordField:'password',
+  passReqToCallback:true
 
+},function(req,username,password,done){
+  User.findOne({'rollNo':username},function(err,user){
+    if(user){
+      return done(null,false,req.flash('registerMessage',"Roll number is already registered"));
+    }else{
+        var user = new User();
+        user.name = req.param('name');
+        user.rollNo = username;
+        user.contact = req.param('number');
+        user.email = req.param('email');
+        user.password = password;
 
-
-
-app.post("/register",(req,res)=>{
-  console.log(req.body);
-  var user = new User({
-    name:req.body.name,
-    rollNo:req.body.rollno,
-    contact:req.body.number,
-    email:req.body.email,
-    password:req.body.password
+        user.save(function(err){
+          if(err){
+            throw err;
+          }
+          return done(null,user);
+        })
+    }
   });
 
-  user.save(function(err){
-    if(err){
 
-      res.render("register",{data:"Their is error in your form.Please Fill data Correctly"});
-    }else{
-      res.redirect('/');
-    }
-  })
-});
+}));
+
+
+app.post('/register',passport.authenticate('register',{
+  successRedirect:'/studentLogin',
+  failureRedirect:'/register',
+  failureflash:true
+}));
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+// app.post("/register",(req,res)=>{
+//   console.log(req.body);
+//   var user = new User({
+//     name:req.body.name,
+//     rollNo:req.body.rollno,
+//     contact:req.body.number,
+//     email:req.body.email,
+//     password:req.body.password
+//   });
+//
+//   user.save(function(err){
+//     if(err){
+//
+//       res.render("register",{data:"Their is error in your form.Please Fill data Correctly"});
+//     }else{
+//       res.redirect('/');
+//     }
+//   })
+// });
 
 
 app.post('/recepieAdded',(req,res)=>{
@@ -192,7 +239,11 @@ dish.save(function(err){
 app.get("/cart",isAuthenticated,(req,res)=>{
 
   res.render("cart");
-})
+
+
+
+});
+
 
 app.listen(3000,function(){
   console.log("Server is runnning on 3000");

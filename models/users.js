@@ -4,23 +4,23 @@ var userSchema = mongoose.Schema({
 
   name:{
     type:String,
-    required:true
+    //required:true
   },
   rollNo:{
-    type:Number,
-    required:true,
-    unique:true
+    type:String,
+    //required:true,
+    //unique:true
   },
   contact:{
-    type:Number
+    type:String
   },
   email:{
     type:String,
   },
   password:{
     type:String,
-    required:true,
-    minlength:6
+    //required:true,
+    //minlength:6
   }
 });
 
