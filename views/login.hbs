@@ -6,15 +6,15 @@
 <link rel="stylesheet" href="css/login.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 
-<body>
+<body id="LoginBody">
 
 
     <div class="container" id="login">
-      <h2><b>Cafeteria Login</b></h2>
-      <hr>
-      <div>
+      <h2 id="title"><b>Cafeteria Student Login</b></h2>
+      <hr style="width:60%;border-color:black">
+      <div class="text-center">
         {{#if messages}}
-          <div class="alert alert-danger">{{messages}}</div>
+          <div class="alert alert-danger" id="errorMessage">{{messages}}</div>
         {{/if}}
       </div>
 
@@ -31,7 +31,7 @@
 
     </div>
 
-    <script src="js/login.js"></script>
+    <!-- <script src="js/login.js"></script> -->
 
 </body>
 

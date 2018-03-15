@@ -1,6 +1,11 @@
-body{
-  height:100%;
-  width: 100%;
+#LoginBody{
+  width:100%;
+  background-color: LightGray;
+}
+
+#title{
+  font-size: 40px;
+  font-family: fantasy;
 }
 #login{
   margin-top: 50px;
@@ -19,6 +24,15 @@ label{
     padding:3px;
     font-size: 120%;
     text-align: left;
+}
+
+button{
+  color: black;
+}
+
+#errorMessage{
+  margin-left: 30%;
+  margin-right:30%;
 }
 
 input[type=text],input[type=password]{

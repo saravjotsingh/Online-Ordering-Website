@@ -7,9 +7,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
-<body>
-    <h1 class="text-center"><b><i>Register Here</i></b></h1>
-    <hr noshade>
+<body id="RegisterBody">
+    <h1 class="text-center" id="title"><b>Register Here</b></h1>
+    <hr style="width:60%;border-color:black">
 
     <div class="form-group">
 
@@ -29,7 +29,8 @@
         <input type="email" class="form-control" name="email" placeholder="Enter your Email" required><br>
         <label>Password</label><br>
         <input type="password" class="form-control" name="password" placeholder="Enter password" required><br><br>
-        <button id ="register" class="btn btn-default">Register</button>
+        <button id ="register" class="btn btn-success">Register</button>
+        <a class="btn btn-success" href="/studentLogin">Cancel</a>
     </form>
         </div>
           <script src="js/register.js"></script>

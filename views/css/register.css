@@ -1,6 +1,19 @@
+#RegisterBody{
+  background-color: LightGray;
+}
+
+#title{
+  font-size: 40px;
+  font-family: fantasy;
+}
+
 input[type=text],input[type=password],input[type=email]{
   width: 30%;
+  border-color: black;
 }
+
+
+
 
 .form-group{
   margin-left: 10%;
