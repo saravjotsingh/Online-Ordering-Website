@@ -2,25 +2,44 @@
   background-color: LightGray;
 }
 
+#mainPanel{
+padding: 20px;
+}
+
 #title{
   font-size: 40px;
   font-family: fantasy;
 }
 
 #dishData{
-  padding:6px;
+  background-color: white;
+  padding:20px;
   border: solid;
   border-width: 1px;
+  margin-top: 5px;
+  margin-right: 10px;
   border-radius: 10px;
+}
 
+#dishSearch{
+  width: 60%;
+}
+
+#add{
+  color:green;
+  width:80px;
+}
+
+#checkout{
+  margin-top: 10px;
 }
 
 #nameData{
-  border-right: solid;
-  border-width: 1px;
+  font-family: 'Slabo 27px', serif;
+  font-size: 20px;
 }
 
 #priceData{
-  border-right: solid;
-border-width: 1px;
+  font-family: 'Slabo 27px', serif;
+  font-size: 20px;
 }

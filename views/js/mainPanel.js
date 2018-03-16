@@ -3,51 +3,74 @@ $(document).ready(function(){
   var dish = [];
   var  price = [];
 
-  $("#lunch").click(function(){
-    $(".Lunch").show();
-    $(".Starters").hide();
-    $(".Dinner").hide();
-    $(".Breakfast").hide();
-  });
+  var category = ["all","Starters","Breakfast","Dinner","Lunch"];
 
-  $("#starters").click(function(){
-    $(".Starters").show();
-    $(".Lunch").hide();
-    $(".Dinner").hide();
-    $(".Breakfast").hide();
-  });
+  $("#category").change(function(){
+    var a = $("#category").val();
+    //console.log(a);
+    for(var i=0;i<category.length;i++){
+      if(a=="all"){
+        $("."+category[i]).show();
+      }else{
+        if(a==category[i]){
+          //console.log(category[i]);
+          $("."+category[i]).show();
+          }else{
+          //console.log("a"  + category[i]);
+          $("."+category[i]).hide();
+        }
+      }
+      }
 
-  $("#dinner").click(function(){
-    $(".dinner").show();
-    $(".Starters").hide();
-    $(".Lunch").hide();
-    $(".Breakfast").hide();
-  });
 
-  $("#breakfast").click(function(){
-    $(".breakfast").show();
-    $(".Starters").hide();
-    $(".Dinner").hide();
-    $(".Lunch").hide();
-  });
+  })
 
-  $("#all").click(function(){
-    $(".Starters")  .show();
-    $(".Dinner").show();
-    $(".Breakfast").show();
-    $(".Lunch").show()
-  });
-  
+  // $("#lunch").click(function(){
+  //   $(".Lunch").show();
+  //   $(".Starters").hide();
+  //   $(".Dinner").hide();
+  //   $(".Breakfast").hide();
+  // });
+  //
+  // $("#starters").click(function(){
+  //   $(".Starters").show();
+  //   $(".Lunch").hide();
+  //   $(".Dinner").hide();
+  //   $(".Breakfast").hide();
+  // });
+  //
+  // $("#dinner").click(function(){
+  //   $(".dinner").show();
+  //   $(".Starters").hide();
+  //   $(".Lunch").hide();
+  //   $(".Breakfast").hide();
+  // });
+  //
+  // $("#breakfast").click(function(){
+  //   $(".breakfast").show();
+  //   $(".Starters").hide();
+  //   $(".Dinner").hide();
+  //   $(".Lunch").hide();
+  // });
+  //
+  // $("#all").click(function(){
+  //   $(".Starters")  .show();
+  //   $(".Dinner").show();
+  //   $(".Breakfast").show();
+  //   $(".Lunch").show()
+  // });
+
     var n =0;
   $(".addToCart").click(function(){
     n++;
+    $(this).attr('disabled','disabled')
     var a = $(this).val();
     var c = $(this).attr("data-value");
 
     dish.push(a);
     price.push(c);
-
-    $('#checkout').html("Checkout " + n);
+    $('#CheckoutText').show();
+    $('#CheckoutText').text(n);
 
     //console.log(dish);
     //console.log(price);
