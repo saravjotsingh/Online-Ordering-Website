@@ -77,10 +77,14 @@ $(document).ready(function(){
   });
 
   $("#checkout").click(function(){
+    if(n==0){
+      alert("Please add something");
+    }else{
+      sessionStorage.setItem("dish",JSON.stringify(dish));
+      sessionStorage.setItem("price",JSON.stringify(price));
+      window.location.href="/cart";
+    }
 
-    sessionStorage.setItem("dish",JSON.stringify(dish));
-    sessionStorage.setItem("price",JSON.stringify(price));
-    window.location.href="/cart";
   });
 
 
