@@ -11,8 +11,12 @@
   margin-top: 50px;
 }
 
-form{
-  margin-left: 35%;
+form {
+    padding: 72px;
+    margin-right: 35%;
+    margin-left: 35%;
+    background-color: white;
+    border-radius: 30px;
 }
 
 h2{
@@ -37,10 +41,10 @@ button{
 
 input[type=text],input[type=password]{
 border-radius:5px;
- width:40%;
  height:40px;
  padding:10px;
 display:inline-block;
+
 
 }
 

@@ -8,8 +8,17 @@
 }
 
 input[type=text],input[type=password],input[type=email]{
-  width: 30%;
+
   border-color: black;
+}
+
+
+#registerForm{
+    background-color: white;
+    margin-left: 20%;
+    margin-right: 35%;
+    padding: 20px;
+    border-radius: 30px;
 }
 
 
