@@ -132,11 +132,14 @@ app.post('/login',passport.authenticate('login',{
 }));
 
 
+
 app.get('/placeOrder',isAuthenticated,(req,res)=>{
     Dish.find({},function(err,docs){
             res.render("mainPanel",{data:docs,user:req.user});
            });
 });
+
+
 
 app.get("/logout",(req,res)=>{
   req.logout();
