@@ -12,6 +12,8 @@ var LocalStrategy   = require('passport-local').Strategy;
 //Models Schema
 var {User} = require("./models/users.js");
 var {Dish} = require("./models/dish.js")
+var {Admin} = require("./models/admin.js");
+
 
 mongoose.Promise = global.Promise;
 
@@ -63,17 +65,112 @@ app.get('/register',(req,res)=>{
 
 
 
-app.get("/adminLogin",(req,res)=>{
-  res.render("adminLogin")
-})
+////////////////////Admin Panel////////////////////////////////////////////////////////////////////////
 
-app.post('/adminPage',(req,res)=>{
-  if(req.body.lUsername=="admin" && req.body.lPassword=="admin"){
-  res.render("addDish");
-}
+
+app.get("/adminLogin",(req,res)=>{
+  res.render("adminLogin",{messages:req.flash("loginmessage")});
 });
 
 
+passport.use('AdminLogin',new LocalStrategy({
+  usernameField:'Id',
+  passwordField:'Password',
+  passReqToCallback:true
+},function(req,username,password,done){
+  Admin.findOne({'Id':username,'password':password},function(err,user){
+    if(err){
+      return done(err);
+    }
+    if(!user){
+      console.log("User not found");
+      return done(null,false,req.flash('loginmessage',"Oops! Wrong Password and Id"));
+    }
+
+    return done(null,user);
+  })
+
+}));
+
+
+
+
+
+
+app.post("/AdminLogin",passport.authenticate("AdminLogin",{
+  successRedirect:'/loggedinAdmin',
+  failureRedirect:'/adminLogin',
+  failureflash:true
+}));
+
+app.get("/loggedinAdmin",(req,res)=>{
+  Dish.find({},(err,docs)=>{
+      res.render("adminPanel",{data:docs});
+  })
+
+})
+
+
+
+
+app.get("/registerAdmin",(req,res)=>{
+  res.render("adminRegister",{messages:req.flash("registerMessage")})
+});
+
+
+
+passport.use("registerAdmin",new LocalStrategy({
+  usernameField:'Id',
+  passwordField:'password',
+  passReqToCallback:true
+
+},function(req,username,password,done){
+  Admin.findOne({'Id':username},function(err,user){
+    if(user){
+      console.log("user found");
+      return done(null,false,req.flash('registerMessage',"Id already registered"));
+    }else{
+        var admin = new Admin();
+        admin.name = req.param('name');
+        admin.Id = username;
+        admin.contact = req.param('number');
+        admin.email = req.param('email');
+        admin.password = password;
+
+        admin.save(function(err){
+          if(err){
+            throw err;
+          }
+          console.log("registeres");
+          return done(null,user);
+        })
+    }
+  });
+
+
+}));
+
+
+app.post("/registerAdmin",passport.authenticate("registerAdmin",{
+  successRedirect:'/adminLogin',
+  failureRedirect:'/registerAdmin',
+  failureflash:true
+}));
+
+
+
+//
+// app.post('/adminPage',(req,res)=>{
+//   if(req.body.lUsername=="admin" && req.body.lPassword=="admin"){
+//   res.render("addDish");
+// }
+//});
+
+app.get('/AddDish',(req,res)=>{
+  res.render("addDish");
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // app.post('/placeOrder',(req,res)=>{
 //   //console.log(req.body);
 //     User.findOne({
@@ -88,6 +185,8 @@ app.post('/adminPage',(req,res)=>{
 //         });
 //       }
 //     });
+
+
 ///////////////////////////////////////////////////
 
 //Passprt MiddleWAres for routes;
@@ -123,6 +222,7 @@ passport.deserializeUser(function(id, done) {
   });
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 app.post('/login',passport.authenticate('login',{
   successRedirect:"/placeOrder",

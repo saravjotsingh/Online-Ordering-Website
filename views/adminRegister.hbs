@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body id="RegisterBody">
+
+
+    <h1 class="text-center" id="title"><b>Register Here</b></h1>
+    <hr style="width:60%;border-color:black">
+    <div>
+      {{#if messages}}
+        <div class="alert alert-danger">{{messages}}</div>
+      {{/if}}
+    </div>
+    <div class="form-group">
+
+    <form method="post" action="/registerAdmin" id="registerForm" >
+
+        <label>Name</label><br>
+        <input type="text" class="form-control" name="name" placeholder="Enter your name" autofocus required><br>
+        <label>Id</label><br>
+        <input type="text" class="form-control "name="Id" placeholder="Enter your Id" required><br>
+        <label>Contact No.</label><br>
+        <input type="text" name='number' class="form-control" placeholder="Enter your mobile number" required><br>
+        <label>Email id</label><br>
+        <input type="email" class="form-control" name="email" placeholder="Enter your Email" required><br>
+        <label>Password</label><br>
+        <input type="password" class="form-control" name="password" placeholder="Enter password" required><br><br>
+        <button id ="register" class="btn btn-success">Register</button>
+        <a class="btn btn-success" href="/adminLogin">Cancel</a>
+    </form>
+        </div>
+          <script src="js/register.js"></script>
+</body>
+</html>

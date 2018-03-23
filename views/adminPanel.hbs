@@ -1,0 +1,82 @@
+<head>
+  <title>Cafeteria</title>
+  <link rel="stylesheet" href="css/mainPanel.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+</head>
+<body id="body">
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Cafeteria Ordering</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>  {{user.name}}<span class="caret"></span></a></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Profile</a></li>
+          </ul>
+        </li>
+
+        <li><a href="/AddDish">Add Dish</a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <h1 class="text-center" id="title">Cafeteria Admin Panel</h1><br>
+  <hr>
+
+  <div class="row" id="mainPanel">
+    <div class="col-sm-4" id="selectData" style="position:fixed;height:100%;">
+      <label for="">Category</label>
+      <select name="category" class="form-control" id="category" style="width:60%;font-family:'Slabo 27px', serif">
+        <option value="all">All</option>
+        <option value="Starters">Starters</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Breakfast">Breakfast</option>
+        <option value="Dinner">Dinner</option>
+      </select><br>
+      <input type="text" name="dishSearch" id="dishSearch"  class="form-control" placeholder="Search Dish">
+
+    </div>
+
+    <div class="col-sm-8" style="margin-left:35%">
+      <div class="row text-center" style="font-weight:bold">
+        <div class="col-sm-4">
+          <p>Name</p>
+        </div>
+        <div class="col-sm-4">
+          <p>Price</p>
+        </div>
+      </div>
+        {{#each data}}
+        <div id="dishData" class="row text-center dishData {{course}}">
+          <div class="col-sm-4" id="nameData">
+            <p class="nameData">{{dishName}}</p>
+
+          </div>
+          <div class="col-sm-4" id="priceData">
+            <p>₹ {{price}}</p>
+          </div>
+          <div class="col-sm-4">
+            <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-default" id="add" name="button">Edit</button>
+            <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-default" id="add" name="button">Delete</button>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+
+  </div>
+
+
+<script type="text/javascript" src="js/adminPanel.js"></script>
+</body>
