@@ -25,7 +25,7 @@
           </ul>
         </li>
 
-        <li><a href="/AddDish">Add Dish</a></li>
+        <li><a data-toggle="modal" data-target="#addDishPanel">Add Dish</a></li>
         <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
@@ -68,11 +68,83 @@
             <p>₹ {{price}}</p>
           </div>
           <div class="col-sm-4">
-            <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-default" id="add" name="button">Edit</button>
-            <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-default" id="add" name="button">Delete</button>
+            <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-default edit" data-toggle="modal"
+            data-target="#editPanel" name="button">Edit</button>
+            <button type="button" value="{{dishName}}" data-value={{price}} class="btn btn-default delete"  name="button">Delete</button>
           </div>
         </div>
         {{/each}}
+
+        <!-- edit dish -->
+      <div class="modal fade" id="editPanel" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit</h4>
+        </div>
+        <div class="modal-body">
+          <form id="search_form" action="/editDish" method="post">
+            <label>Name</label>
+            <input type="text" class="form-control" name="dishEdit" id="editDish" placeholder="Name" readonly><br>
+            <label>Price</label>
+            <input type="text" class="form-control" name="priceEdit" id="editPrice" placeholder="Price"><br>
+            <button type="submit" name="button" class="btn btn-success">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- add dish -->
+
+  <div class="modal fade" id="addDishPanel" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Add Dish</h4>
+    </div>
+    <div class="modal-body">
+      <form method="post" action="/recepieAdded">
+        <!-- <div>
+          {{#if data}}
+            <div class="alert alert-danger">{{data}}</div>
+          {{/if}}
+        </div> -->
+          <label>Dish Name</label><br>
+          <input type="text" class="form-control" name="name" placeholder="Enter the dish name" autofocus required><br>
+          <label>Price</label><br>
+          <input type="text" class="form-control "name="price" placeholder="Enter the price" required><br>
+          <label>Select Category</label>
+          <select class="form-control" id="variety" name="category">
+             <option value="none">None</option>
+             <option value="Starters">Starters</option>
+             <option value="Lunch">Lunch</option>
+             <option value="Dinner">Dinner</option>
+          </select><br><br>
+          <button id ="register" class="btn btn-default">Submit Recepie</button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+</div>
+
+
+
+
       </div>
 
   </div>

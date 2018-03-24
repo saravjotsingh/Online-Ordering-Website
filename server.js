@@ -118,6 +118,18 @@ app.get("/registerAdmin",(req,res)=>{
 });
 
 
+app.post("/deleteDish",(req,res)=>{
+  console.log(req.body.dishToDelete);
+  Dish.remove({"dishName":req.body.dishToDelete},function(err,docs){
+    if(err){
+          console.log("eerr");
+    }else{
+        console.log("deleted");
+        res.send(docs);
+    }
+  })
+
+})
 
 passport.use("registerAdmin",new LocalStrategy({
   usernameField:'Id',
@@ -318,6 +330,7 @@ app.post('/register',passport.authenticate('register',{
 //   })
 // });
 
+///
 
 app.post('/recepieAdded',(req,res)=>{
   console.log(req.body);
@@ -328,23 +341,32 @@ app.post('/recepieAdded',(req,res)=>{
   course:req.body.category
 });
 
+
 dish.save(function(err){
   if(err){
     console.log(err);
     res.render("addDish",{data:"Dish not added Please Add again"});
   }else{
-    res.redirect("/");
+    res.redirect("/loggedinAdmin");
   }
 })
 
 })
 
+
+app.post("/editDish",(req,res)=>{
+  Dish.update({"dishName":req.body.dishEdit},{"price":req.body.priceEdit},function(err){
+    if(err){
+      console.log(err)
+    }else{
+      res.redirect('/loggedinAdmin');
+    }
+  })
+  //console.log(req.body);
+})
+
 app.get("/cart",isAuthenticated,(req,res)=>{
-
   res.render("cart");
-
-
-
 });
 
 

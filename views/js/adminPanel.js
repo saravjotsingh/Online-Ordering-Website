@@ -39,7 +39,42 @@ $("#dishSearch").keyup(function(){
 
     }
 
+});
+
+$('.edit').click(function(){
+  var name = $(this).attr('value');
+  var price = $(this).attr('data-value');
+  $('#editDish').val(name);
+  $('#editPrice').val(price);
+  //console.log(name + price);
+});
+
+
+
+$('.delete').on("click",function(){
+
+  var data = {};
+  data.dishToDelete = $(this).attr("value");
+  $.ajax({
+    type:"POST",
+    data:JSON.stringify(data),
+    contentType:'application/json',
+    url: '/deleteDish',
+    success:function(data){
+      //console.log(data + " sucess");
+      //console.log(JSON.stringify(data));
+      // console.log(JSON.stringify(data));
+      // alert("Deleted");
+      location.reload()
+
+    }
+  })
 
 })
+
+
+
+
+
 
 });
