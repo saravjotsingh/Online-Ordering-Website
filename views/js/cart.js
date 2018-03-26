@@ -61,7 +61,7 @@ function showData(){
 
      row += `
     <tr>
-      <td>${dish[i]}<button class="btn btn-link remove" id="${i}">Remove</button></td>
+      <td><button class="btn btn-link remove" id="${i}">&times;</button>${dish[i]}</td>
       <td>${price[i]}</td>
       <td><select class="form-control" id="a${i}" name="quantity">
                 <option value="1">1</option>
