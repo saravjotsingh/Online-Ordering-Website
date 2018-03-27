@@ -6,7 +6,7 @@ var flash = require('connect-flash');
 var passport = require("passport");
 var expressSession = require("express-session");
 var LocalStrategy   = require('passport-local').Strategy;
-
+var cookieParser = require('cookie-parser');
 
 
 //Models Schema
@@ -34,6 +34,7 @@ var app = express();
 //middlewares
 
 app.use(express.static(__dirname + '/views'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -95,20 +96,36 @@ passport.use('AdminLogin',new LocalStrategy({
 
 
 
-
-
 app.post("/AdminLogin",passport.authenticate("AdminLogin",{
   successRedirect:'/loggedinAdmin',
   failureRedirect:'/adminLogin',
   failureflash:true
 }));
 
+
+
 app.get("/loggedinAdmin",(req,res)=>{
+  console.log("Hello " + req.user);
   Dish.find({},(err,docs)=>{
       res.render("adminPanel",{data:docs});
   })
 
-})
+});
+
+
+
+// function isAdminAuthenticated(req, res, next) {
+//  if (!req.isAuthenticated()){
+//    return next();
+//  }
+//  res.redirect('/adminLogin');
+// }
+
+
+// app.get('/adminLogout',(req,res)=>{
+//   req.logout();
+//   res.redirect('/adminLogin');
+// })
 
 
 
@@ -116,6 +133,47 @@ app.get("/loggedinAdmin",(req,res)=>{
 app.get("/registerAdmin",(req,res)=>{
   res.render("adminRegister",{messages:req.flash("registerMessage")})
 });
+
+
+
+
+passport.use("registerAdmin",new LocalStrategy({
+  usernameField:'Id',
+  passwordField:'password',
+  passReqToCallback:true
+},function(req,username,password,done){
+  Admin.findOne({'Id':username},function(err,user){
+    if(user){
+      return done(null,false,req.flash('registerMessage',"Id already registered"));
+    }else{
+        var admin = new Admin();
+        admin.name = req.param('name');
+        admin.Id = username;
+        admin.contact = req.param('number');
+        admin.email = req.param('email');
+        admin.password = password;
+
+        admin.save(function(err,user){
+          if(err){
+            throw err;
+          }
+          return done(null,user);
+        });
+    }
+  });
+
+
+}));
+/////////////////////////////////////////////
+
+
+
+app.post("/registerAdmin",passport.authenticate("registerAdmin",{
+  successRedirect:'/adminLogin',
+  failureRedirect:'/registerAdmin',
+  failureflash:true
+}));
+
 
 
 app.post("/deleteDish",(req,res)=>{
@@ -130,45 +188,6 @@ app.post("/deleteDish",(req,res)=>{
   })
 
 })
-
-passport.use("registerAdmin",new LocalStrategy({
-  usernameField:'Id',
-  passwordField:'password',
-  passReqToCallback:true
-
-},function(req,username,password,done){
-  Admin.findOne({'Id':username},function(err,user){
-    if(user){
-      console.log("user found");
-      return done(null,false,req.flash('registerMessage',"Id already registered"));
-    }else{
-        var admin = new Admin();
-        admin.name = req.param('name');
-        admin.Id = username;
-        admin.contact = req.param('number');
-        admin.email = req.param('email');
-        admin.password = password;
-
-        admin.save(function(err){
-          if(err){
-            throw err;
-          }
-          console.log("registeres");
-          return done(null,user);
-        })
-    }
-  });
-
-
-}));
-
-
-app.post("/registerAdmin",passport.authenticate("registerAdmin",{
-  successRedirect:'/adminLogin',
-  failureRedirect:'/registerAdmin',
-  failureflash:true
-}));
-
 
 
 //
@@ -225,13 +244,16 @@ passport.use("login",new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
+  console.log(user.id);
   done(null, user._id);
 });
 
+///here is the problem we are doing deserializeUser by User database be have to mske diff to do Admin work and Employee work
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
   });
+
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -267,7 +289,7 @@ app.get("/logout",(req,res)=>{
 
 /////
 
-//passport authentication for registration
+//passport authentication for  Student registration
 
 /////
 
