@@ -104,28 +104,28 @@ app.post("/AdminLogin",passport.authenticate("AdminLogin",{
 
 
 
-app.get("/loggedinAdmin",(req,res)=>{
-  console.log("Hello " + req.user);
+app.get("/loggedinAdmin",isAdminAuthenticated,(req,res)=>{
+  console.log("Hello " + req.user.name);
   Dish.find({},(err,docs)=>{
-      res.render("adminPanel",{data:docs});
+      res.render("adminPanel",{data:docs,user:req.user});
   })
 
 });
 
 
 
-// function isAdminAuthenticated(req, res, next) {
-//  if (!req.isAuthenticated()){
-//    return next();
-//  }
-//  res.redirect('/adminLogin');
-// }
+function isAdminAuthenticated(req, res, next) {
+ if (req.isAuthenticated()){
+   return next();
+ }
+ res.redirect('/adminLogin');
+}
 
 
-// app.get('/adminLogout',(req,res)=>{
-//   req.logout();
-//   res.redirect('/adminLogin');
-// })
+app.get('/adminLogout',(req,res)=>{
+  req.logout();
+  res.redirect('/adminLogin');
+})
 
 
 
@@ -152,6 +152,7 @@ passport.use("registerAdmin",new LocalStrategy({
         admin.contact = req.param('number');
         admin.email = req.param('email');
         admin.password = password;
+        admin.type = "Admin";
 
         admin.save(function(err,user){
           if(err){
@@ -251,7 +252,13 @@ passport.serializeUser(function(user, done) {
 ///here is the problem we are doing deserializeUser by User database be have to mske diff to do Admin work and Employee work
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
-    done(err, user);
+    if(user)
+      {done(err, user);}
+    else{
+      Admin.findById(id, function(err, user){
+        done(err,user);
+      });
+    }
   });
 
 });
@@ -310,6 +317,7 @@ passport.use('register',new LocalStrategy({
         user.contact = req.param('number');
         user.email = req.param('email');
         user.password = password;
+        user.type = "Student";
 
         user.save(function(err){
           if(err){
