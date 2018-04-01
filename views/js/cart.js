@@ -34,30 +34,6 @@ function showData(){
   `
 
   for(var i=0;i<dish.length;i++){
-    // row = `
-    // <div class='container'>
-    //    <div class="row" id="CafeteriaData">
-    //     <div class="col-sm-3">${dish[i]}<button class="btn btn-link remove" id="${i}">Remove</button></div>
-    //      <div class="col-sm-3">${price[i]}</div>
-    //      <div class="col-sm-3">
-    //        <select class="form-control" id="a${i}" name="quantity">
-    //          <option value="1">1</option>
-    //          <option value="2">2</option>
-    //          <option value="3">3</option>
-    //          <option value="4">4</option>
-    //          <option value="5">5</option>
-    //          <option value="6">6</option>
-    //          <option value="7">7</option>
-    //          <option value="8">8</option>
-    //          <option value="9">9</option>
-    //          <option value="10">10</option>
-    //        </select>
-    //      </div>
-    //      <div class="col-sm-3" id="total${i}">${price[i]}</div>
-    //    </div>
-    //  </div>
-    //
-    // `
 
      row += `
     <tr>
@@ -113,9 +89,19 @@ $(".remove").on("click",function(){
 
 });
 
+// $("select").change(function(){
+// console.log(dish + " " +price );
+// for(var i=0;i<dish.length;i++){
+//   console.log($("#a" + i).val());
+// }
+// });
+
 
 }
 
+$("#cancel").on('click',function(){
+  window.location = "/placeOrder";
+});
 
 
 
@@ -124,11 +110,33 @@ $(".remove").on("click",function(){
 
 
 
+$("#placeOrder").on('click',function(){
+    console.log(dish);
+    var a = [];
+     for(var i=0;i<dish.length;i++){
+       a[i] = $("#a" + i).val();
+     }
+     console.log(a);
+
+     var data = {};
+     data.dish = dish;
+     data.quantity = a;
+     $.ajax({
+       type:"POST",
+       data:JSON.stringify(data),
+       url:"/OrderPlaced",
+       contentType:'application/json',
+       success:function(data){
+         console.log(data);
+       }
+     })
+
+});
 
 
 
 
-  //Retrieve the template data from the HTML .
+
 });
 
 

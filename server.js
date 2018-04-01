@@ -400,6 +400,21 @@ app.get("/cart",isAuthenticated,(req,res)=>{
 });
 
 
+
+///////////////////////////////////////////////////////EMPLLOYEEEE Panel
+
+app.get('/employeeLogin',(req,res)=>{
+  res.render('employeeLogin');
+})
+
+
+app.post("/OrderPlaced",(req,res)=>{
+  console.log(req.body.dish);
+  console.log(req.body.quantity);
+  res.send("done");
+})
+
+
 app.listen(3000,function(){
   console.log("Server is runnning on 3000");
 });
