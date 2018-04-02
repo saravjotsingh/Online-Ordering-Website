@@ -80,6 +80,7 @@ $(document).ready(function(){
     if(n==0){
       alert("Please add something");
     }else{
+      sessionStorage.setItem("ID",$("#ID").text())
       sessionStorage.setItem("dish",JSON.stringify(dish));
       sessionStorage.setItem("price",JSON.stringify(price));
       window.location.href="/cart";

@@ -2,8 +2,10 @@ var mongoose = require("mongoose");
 
 var orderSchema = mongoose.Schema({
   items:[String],
-  price:[Number],
-  quantity:[Number]
+  quantity:[Number],
+  identity:{
+    type:String
+  }
 });
 
 var Order = mongoose.model("Order",orderSchema);

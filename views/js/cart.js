@@ -2,6 +2,7 @@ $(document).ready(function(){
 
   var dish = JSON.parse(sessionStorage.getItem("dish"));
   var price = JSON.parse(sessionStorage.getItem("price"));
+  var identity = sessionStorage.getItem("ID");
 
   var row;
 
@@ -116,18 +117,18 @@ $("#placeOrder").on('click',function(){
      for(var i=0;i<dish.length;i++){
        a[i] = $("#a" + i).val();
      }
-     console.log(a);
 
      var data = {};
      data.dish = dish;
      data.quantity = a;
+     data.identity = identity;
      $.ajax({
        type:"POST",
        data:JSON.stringify(data),
        url:"/OrderPlaced",
        contentType:'application/json',
        success:function(data){
-         console.log(data);
+         alert(data._id);
        }
      })
 

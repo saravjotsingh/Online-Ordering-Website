@@ -13,6 +13,7 @@ var cookieParser = require('cookie-parser');
 var {User} = require("./models/users.js");
 var {Dish} = require("./models/dish.js")
 var {Admin} = require("./models/admin.js");
+var {Order} = require("./models/order.js");
 
 
 mongoose.Promise = global.Promise;
@@ -280,6 +281,10 @@ app.get('/placeOrder',isAuthenticated,(req,res)=>{
            });
 });
 
+app.get("/cart",isAuthenticated,(req,res)=>{
+  res.render("cart");
+});
+
 
 
 app.get("/logout",(req,res)=>{
@@ -395,9 +400,7 @@ app.post("/editDish",(req,res)=>{
   //console.log(req.body);
 })
 
-app.get("/cart",isAuthenticated,(req,res)=>{
-  res.render("cart");
-});
+
 
 
 
@@ -407,11 +410,33 @@ app.get('/employeeLogin',(req,res)=>{
   res.render('employeeLogin');
 })
 
+app.get('/employeePanel',(req,res)=>{
+  Order.find({},function(err,docs){
+    if(err){
+      console.log(err);
+    }else{
+      res.render('employeePanel',{docs:docs});
+    }
+  })
+})
+
 
 app.post("/OrderPlaced",(req,res)=>{
   console.log(req.body.dish);
   console.log(req.body.quantity);
-  res.send("done");
+  var order = new Order();
+  order.items = req.body.dish;
+  order.quantity = req.body.quantity;
+  order.identity = req.body.identity;
+
+  order.save(function(err,docs){
+    if(err){
+      console.log(err);
+    }else{
+      res.send(docs);
+    }
+  })
+  //res.send("done");
 })
 
 
