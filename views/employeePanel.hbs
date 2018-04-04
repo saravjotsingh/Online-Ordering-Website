@@ -5,29 +5,41 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div class="container">
       <h1>Orders</h1>
-      {{#each docs}}
+      {{#if docs}}
+        {{#each docs}}
 
-      <div class="row" style="border:1px solid gray;padding:10px">
-        <p>Order No:{{id}}</p>
-        <div class="col-sm-4">
-          {{#each items}}
-            <p>{{this}}</p>
-          {{/each}}
-      </div>
-      <div class="col-sm-4">
-            {{#each quantity}}
+        <div class="row {{status}}" style="border:1px solid gray;padding:10px">
+          <p>Order No:{{id}}</p>
+          <div class="col-sm-4">
+            {{#each items}}
               <p>{{this}}</p>
             {{/each}}
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-success" name="button" value="{{id}}">Complete</button>
+              {{#each quantity}}
+                <p>{{this}}</p>
+              {{/each}}
+          </div>
+          <div class="col-sm-4">
+            <button type="button"  class="btn btn-succes orderComplete" name="button" value="{{id}}">Complete</button>
+          </div>
         </div>
-      </div>
-      {{/each}}
+        {{/each}}
+
+      {{else}}
+        <div class="alert alert-info text-center">
+        <p>No New Orders</p>
+        </div>
+      {{/if}}
     </div>
+    <script type="text/javascript" src="js/employeePanel.js">
+
+    </script>
   </body>
 </html>

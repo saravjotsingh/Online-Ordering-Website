@@ -5,6 +5,9 @@ var orderSchema = mongoose.Schema({
   quantity:[Number],
   identity:{
     type:String
+  },
+  status:{
+    type:String
   }
 });
 

@@ -428,6 +428,7 @@ app.post("/OrderPlaced",(req,res)=>{
   order.items = req.body.dish;
   order.quantity = req.body.quantity;
   order.identity = req.body.identity;
+  order.status = "complete";
 
   order.save(function(err,docs){
     if(err){
@@ -437,6 +438,17 @@ app.post("/OrderPlaced",(req,res)=>{
     }
   })
   //res.send("done");
+})
+
+app.post("/orderComplete",(req,res)=>{
+  console.log(req.body);
+  Order.remove({'_id':req.body.ID},function(err){
+    if(err){
+      console.log(err);
+    }else{
+      res.send('done');
+    }
+  })
 })
 
 
