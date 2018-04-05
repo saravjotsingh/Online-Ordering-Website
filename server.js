@@ -20,7 +20,7 @@ mongoose.Promise = global.Promise;
 
 
 
-var db = mongoose.connect('mongodb://localhost:27017/Users');
+var db = mongoose.connect('mongodb://localhost:27017/CafeteriaSystem');
 
 
 
@@ -410,6 +410,15 @@ app.get('/employeeLogin',(req,res)=>{
   res.render('employeeLogin');
 })
 
+hbs.registerHelper('if_eq', function(a, b, opts) {
+    if(a==b){
+      return opts.fn(this);
+    }else{
+      return opts.inverse(this);
+    }
+});
+
+
 app.get('/employeePanel',(req,res)=>{
   Order.find({},function(err,docs){
     if(err){
@@ -422,13 +431,11 @@ app.get('/employeePanel',(req,res)=>{
 
 
 app.post("/OrderPlaced",(req,res)=>{
-  console.log(req.body.dish);
-  console.log(req.body.quantity);
   var order = new Order();
   order.items = req.body.dish;
   order.quantity = req.body.quantity;
   order.identity = req.body.identity;
-  order.status = "complete";
+  order.status = "uncomplete";
 
   order.save(function(err,docs){
     if(err){
@@ -442,13 +449,31 @@ app.post("/OrderPlaced",(req,res)=>{
 
 app.post("/orderComplete",(req,res)=>{
   console.log(req.body);
-  Order.remove({'_id':req.body.ID},function(err){
+  // Order.remove({'_id':req.body.ID},function(err){
+  //   if(err){
+  //     console.log(err);
+  //   }else{
+  //     res.send('done');
+  //   }
+  // })
+
+  Order.update({'_id':req.body.ID},{status:"complete"},function(err){
     if(err){
-      console.log(err);
+      console.log(err)
     }else{
       res.send('done');
     }
   })
+})
+
+app.post('/removeOrder',(req,res)=>{
+  Order.remove({'_id':req.body.ID},function(err){
+   if(err){
+     console.log(err);
+   }else{
+     res.send('done');
+   }
+ })
 })
 
 

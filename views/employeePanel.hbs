@@ -10,11 +10,16 @@
   </head>
   <body>
     <div class="container">
-      <h1>Orders</h1>
-      {{#if docs}}
-        {{#each docs}}
 
-        <div class="row {{status}}" style="border:1px solid gray;padding:10px">
+
+      <div class="row">
+        <div class="col-sm-6">
+
+          <h1>New Orders</h1>
+
+        {{#each docs}}
+        {{#if_eq status 'uncomplete'}}
+        <div class="row {{status}}" style="border:1px solid gray;margin-right:10px;margin-top:10px">
           <p>Order No:{{id}}</p>
           <div class="col-sm-4">
             {{#each items}}
@@ -27,16 +32,44 @@
               {{/each}}
           </div>
           <div class="col-sm-4">
-            <button type="button"  class="btn btn-succes orderComplete" name="button" value="{{id}}">Complete</button>
+            <button type="button"  class="btn btn-success orderComplete" name="button" value="{{id}}">Complete</button>
           </div>
         </div>
+
+        {{/if_eq}}
         {{/each}}
 
-      {{else}}
-        <div class="alert alert-info text-center">
-        <p>No New Orders</p>
+      </div>
+
+
+
+      <div class="col-sm-6">
+        <h1>Orders Completed</h1>
+        <div class="row">
+          {{#each docs}}
+          {{#if_eq status "complete"}}
+          <div class="row {{status}}" style="border:1px solid gray;margin-left:10px;margin-top:10px;">
+            <p>Order No:{{id}}</p>
+            <div class="col-sm-4">
+              {{#each items}}
+                <p>{{this}}</p>
+              {{/each}}
+          </div>
+          <div class="col-sm-4">
+                {{#each quantity}}
+                  <p>{{this}}</p>
+                {{/each}}
+            </div>
+            <div class="col-sm-4">
+              <button type="button"  class="btn btn-success removeOrder" name="button" value="{{id}}">remove</button>
+            </div>
+          </div>
+          {{/if_eq}}
+          {{/each}}
+
         </div>
-      {{/if}}
+      </div>
+
     </div>
     <script type="text/javascript" src="js/employeePanel.js">
 
