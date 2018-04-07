@@ -11,6 +11,18 @@ padding: 20px;
   font-family: fantasy;
 }
 
+#selectData{
+  position: fixed;
+  height:100%;
+}
+
+/* @media only screen and (max-width: 600px) {
+    #selectData{
+      position: relative;
+      height:20%;
+    }
+} */
+
 #dishData{
   background-color: white;
   padding:20px;
