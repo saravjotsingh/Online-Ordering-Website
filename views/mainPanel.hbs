@@ -39,7 +39,7 @@
   <div class="row" id="mainPanel">
     <div class="col-sm-4" id="selectData">
       <label for="">Category</label>
-      <select name="category" class="form-control" id="category" style="width:60%;font-family:'Slabo 27px', serif">
+      <select name="category" class="form-control" id="category">
         <option value="all">All</option>
         <option value="Starters">Starters</option>
         <option value="Lunch">Lunch</option>
@@ -50,7 +50,7 @@
 
     </div>
 
-    <div class="col-sm-8" style="margin-left:35%">
+    <div class="col-sm-8"  id="DishRow" style="">
       <div class="row text-center" style="font-weight:bold">
         <div class="col-sm-4">
           <p>Name</p>
@@ -60,9 +60,9 @@
         </div>
       </div>
         {{#each data}}
-        <div id="dishData" class="row text-center {{course}}">
+        <div id="dishData" class="row text-center dishData {{course}}">
           <div class="col-sm-4" id="nameData">
-            <p>{{dishName}}</p>
+            <p class="nameData">{{dishName}}</p>
 
           </div>
           <div class="col-sm-4" id="priceData">

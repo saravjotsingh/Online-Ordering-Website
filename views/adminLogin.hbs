@@ -6,25 +6,24 @@
 <link rel="stylesheet" href="css/login.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 
-<body>
+<body id="LoginBody">
 
-  <div>
-    {{#if messages}}
-      <div class="alert alert-danger">{{messages}}</div>
-    {{/if}}
-  </div>
 
     <div class="container" id="login">
       <h2><b>Admin Login</b></h2>
       <hr>
         <div class="form-group">
             <form method="post" action="/AdminLogin">
+              {{#if messages}}
+                <p style="color:red;font-size:12px">{{messages}}</p>
+              {{/if}}
+
                 <Label>Id</Label><br>
                 <input type="text" class="form-control" name="Id" placeholder="Enter Id" required><br>
                 <Label>Password</Label><br>
                 <input type="password" class="form-control" name="Password" placeholder="Enter Password" required><br><br>
                 <button class="btn btn-success">Login</button><br>
-                <p><b>New Here?<a href="/registerAdmin">Register now</a></b></p>
+                <!-- <p><b>New Here?<a href="/registerAdmin">Register now</a></b></p> -->
         </div>
         </form>
 

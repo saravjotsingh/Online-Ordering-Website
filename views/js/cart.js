@@ -129,6 +129,7 @@ $("#placeOrder").on('click',function(){
        contentType:'application/json',
        success:function(data){
          alert(data._id);
+         window.location = "/placeOrder";
        }
      })
 

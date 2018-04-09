@@ -16,12 +16,26 @@ padding: 20px;
   height:100%;
 }
 
-/* @media only screen and (max-width: 600px) {
+#DishRow{
+  margin-left:35%;
+}
+
+@media only screen and (max-width: 600px) {
     #selectData{
       position: relative;
       height:20%;
     }
-} */
+    #DishRow{
+      margin-left: 0px;
+    }
+
+    
+}
+
+#category{
+  width:60%;
+  font-family:'Slabo 27px', serif;
+}
 
 #dishData{
   background-color: white;

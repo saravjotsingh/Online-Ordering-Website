@@ -25,6 +25,28 @@ $(document).ready(function(){
 
   })
 
+
+
+  $("#dishSearch").keyup(function(){
+
+    var a = $("#dishSearch").val();
+      var parent = document.getElementsByClassName('dishData');;
+      var  c = document.getElementsByClassName('nameData');
+      for(var i =0;i<c.length;i++){
+        var filter  = a.toUpperCase();
+  //console.log(filter);
+          if(c[i].innerHTML.toUpperCase().indexOf(filter)>-1){
+            parent[i].style.display="";
+          }else{
+            parent[i].style.display="none";
+          }
+
+      }
+
+  });
+
+
+
   // $("#lunch").click(function(){
   //   $(".Lunch").show();
   //   $(".Starters").hide();
