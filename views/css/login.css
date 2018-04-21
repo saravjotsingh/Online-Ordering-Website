@@ -1,6 +1,6 @@
 #LoginBody{
   width:100%;
-  background-color: LightGray;
+  background-color: #10A6C9;
 }
 
 #title{
@@ -49,6 +49,7 @@ button{
   color: black;
   width: 100%;
 }
+
 
 #errorMessage{
   margin-left: 30%;

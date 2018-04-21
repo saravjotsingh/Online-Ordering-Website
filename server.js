@@ -14,6 +14,7 @@ var {User} = require("./models/users.js");
 var {Dish} = require("./models/dish.js")
 var {Admin} = require("./models/admin.js");
 var {Order} = require("./models/order.js");
+var {Employee} = require('./models/employee');
 
 
 mongoose.Promise = global.Promise;
@@ -53,12 +54,9 @@ app.set('view engine','hbs');
 
 
 app.get('/',(req,res)=>{
-  res.render('frontPage');
-});
-
-app.get("/studentLogin",(req,res)=>{
   res.render("Login",{messages:req.flash("loginmessage")});
 });
+
 
 
 app.get('/register',(req,res)=>{
@@ -70,7 +68,7 @@ app.get('/register',(req,res)=>{
 ////////////////////Admin Panel////////////////////////////////////////////////////////////////////////
 
 
-app.get("/adminLogin",(req,res)=>{
+app.get("/admin",(req,res)=>{
   res.render("adminLogin",{messages:req.flash("loginmessage")});
 });
 
@@ -99,7 +97,7 @@ passport.use('AdminLogin',new LocalStrategy({
 
 app.post("/AdminLogin",passport.authenticate("AdminLogin",{
   successRedirect:'/loggedinAdmin',
-  failureRedirect:'/adminLogin',
+  failureRedirect:'/admin',
   failureflash:true
 }));
 
@@ -119,13 +117,13 @@ function isAdminAuthenticated(req, res, next) {
  if (req.isAuthenticated()){
    return next();
  }
- res.redirect('/adminLogin');
+ res.redirect('/admin');
 }
 
 
 app.get('/adminLogout',(req,res)=>{
   req.logout();
-  res.redirect('/adminLogin');
+  res.redirect('/admin');
 })
 
 
@@ -171,7 +169,7 @@ passport.use("registerAdmin",new LocalStrategy({
 
 
 app.post("/registerAdmin",passport.authenticate("registerAdmin",{
-  successRedirect:'/adminLogin',
+  successRedirect:'/admin',
   failureRedirect:'/registerAdmin',
   failureflash:true
 }));
@@ -257,7 +255,16 @@ passport.deserializeUser(function(id, done) {
       {done(err, user);}
     else{
       Admin.findById(id, function(err, user){
-        done(err,user);
+        if(user){
+            done(err,user);
+        }else{
+          console.log("hello");
+          Employee.findById(id, function(err, user){
+            done(err,user);
+
+          });
+        }
+
       });
     }
   });
@@ -268,7 +275,7 @@ passport.deserializeUser(function(id, done) {
 
 app.post('/login',passport.authenticate('login',{
   successRedirect:"/placeOrder",
-  failureRedirect:"/studentLogin",
+  failureRedirect:"/",
   failureflash:true
 
 }));
@@ -289,14 +296,14 @@ app.get("/cart",isAuthenticated,(req,res)=>{
 
 app.get("/logout",(req,res)=>{
   req.logout();
-  res.redirect('/studentLogin');
+  res.redirect('/');
 })
 
 
  function isAuthenticated(req, res, next) {
   if (req.isAuthenticated())
     return next();
-  res.redirect('/studentLogin');
+  res.redirect('/');
 }
 
 /////
@@ -406,9 +413,16 @@ app.post("/editDish",(req,res)=>{
 
 ///////////////////////////////////////////////////////EMPLLOYEEEE Panel
 
-app.get('/employeeLogin',(req,res)=>{
+app.get('/employee',(req,res)=>{
   res.render('employeeLogin');
 })
+
+
+app.get('/registerEmployee',(req,res)=>{
+  res.render('employeeRegister');
+})
+
+
 
 hbs.registerHelper('if_eq', function(a, b, opts) {
     if(a==b){
@@ -427,8 +441,87 @@ app.get('/employeePanel',(req,res)=>{
       res.render('employeePanel',{docs:docs});
     }
   })
-})
+});
 
+passport.use('employeeLogin',new LocalStrategy({
+  usernameField:'Id',
+  passwordField:'password',
+  passReqToCallback:true
+},function(req,username,password,done){
+  console.log(username + password);
+  Employee.findOne({'Id':username,'password':password},function(err,user){
+    if(err){
+      return done(err);
+    }
+    if(!user){
+      console.log("User not found");
+      return done(null,false,req.flash('loginmessage',"Oops! Wrong Password and Id"));
+    }
+
+    return done(null,user);
+  })
+
+}));
+
+
+
+
+app.post("/employeeLogin",passport.authenticate("employeeLogin",{
+  successRedirect:'/employeePanel',
+  failureRedirect:'/employee',
+  failureflash:true
+}));
+
+
+
+
+
+
+
+
+passport.use("registerEmployee",new LocalStrategy({
+  usernameField:'Id',
+  passwordField:'password',
+  passReqToCallback:true
+},function(req,username,password,done){
+
+  Employee.findOne({'Id':username},function(err,user){
+    if(user){
+      return done(null,false,req.flash('registerMessage',"Id already registered"));
+    }else{
+        var employee  = new Employee();
+        employee.name = req.param('name');
+        employee.Id = username;
+        employee.contact = req.param('number');
+        employee.email = req.param('email');
+        employee.password = password;
+        employee.type = "Employee";
+
+        employee.save(function(err,user){
+          if(err){
+            throw err;
+          }
+          return done(null,user);
+        });
+    }
+  });
+
+
+}));
+
+app.post("/registerEmployee",passport.authenticate("registerEmployee",{
+  successRedirect:'/employee',
+  failureRedirect:'/registerEmployee',
+  failureflash:true
+}));
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////employeeeee
 
 app.post("/OrderPlaced",(req,res)=>{
   var order = new Order();
